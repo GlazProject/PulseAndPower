@@ -8,17 +8,15 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
 {
     public override Task SetupAsync(IVostokAspNetCoreWebApplicationBuilder builder, IVostokHostingEnvironment environment)
     {
-        builder.SetupWebApplication(builder =>
+        builder.SetupWebApplication(setupBuilder =>
         {
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddVostokTracing(setup => setup.ResponseTraceIdHeader = "TraceId");
-            builder.Services.AddVostokRequestInfo(setup => setup.DefaultTimeoutProvider = _ => TimeSpan.FromSeconds(30));
-            builder.Services.AddVostokRequestLogging(setup =>
+            setupBuilder.Services.AddControllers();
+            setupBuilder.Services.AddEndpointsApiExplorer();
+            setupBuilder.Services.AddSwaggerGen();
+            setupBuilder.Services.AddVostokTracing(setup => setup.ResponseTraceIdHeader = "TraceId");
+            setupBuilder.Services.AddVostokRequestInfo(setup => setup.DefaultTimeoutProvider = _ => TimeSpan.FromSeconds(30));
+            setupBuilder.Services.AddVostokRequestLogging(setup =>
             {
-                setup.LogRequestHeaders = true;
-                setup.LogResponseHeaders = true;
                 setup.LogResponseCompletion = true;
                 setup.LogQueryString = true;
             });
