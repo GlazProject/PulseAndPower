@@ -4,6 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>PulseAndPower</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,9 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\Common" />
-      <Folder Include="Models\Request" />
-      <Folder Include="Models\Result" />
+      <ProjectReference Include="..\PulseAndPower.Core\PulseAndPower.Core.csproj" />
     </ItemGroup>
 
 </Project>

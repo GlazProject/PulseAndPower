@@ -9,9 +9,7 @@ public static class EntryPoint
     {
         var application = new PulseAndPowerApplication();
         var hostSettings = new VostokHostSettings(application, EnvironmentSetup);
-
         var host = new VostokHost(hostSettings);
-
         await host.WithConsoleCancellation().RunAsync();
     }
 
@@ -26,6 +24,6 @@ public static class EntryPoint
             .DisableClusterConfig()
             .DisableHercules()
             .SetupLog(logBuilder => logBuilder.SetupConsoleLog())
-            .SetPort(8888);
+            .SetPort(25252);
     }
 }
