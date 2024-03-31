@@ -1,9 +1,13 @@
-﻿using Vostok.Applications.AspNetCore;
+﻿using PulseAndPower.BusinessLogic.Settings;
+using PulseAndPower.DI;
+using Vostok.Applications.AspNetCore;
 using Vostok.Applications.AspNetCore.Builders;
 using Vostok.Hosting.Abstractions;
+using Vostok.Hosting.Abstractions.Requirements;
 
 namespace PulseAndPower;
 
+[RequiresSecretConfiguration(typeof(SecretSettings))]
 public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
 {
     public override Task SetupAsync(IVostokAspNetCoreWebApplicationBuilder builder, IVostokHostingEnvironment environment)
@@ -20,6 +24,11 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
                 setup.LogResponseCompletion = true;
                 setup.LogQueryString = true;
             });
+            
+            setupBuilder.Services.AddSingleton(environment.SecretConfigurationProvider.Get<SecretSettings>());
+            setupBuilder.Services.AddSingleton(environment.SecretConfigurationProvider.Get<SecretSettings>().AuthSettings);
+            setupBuilder.Services.RegisterMongo();
+            setupBuilder.Services.RegisterBusinessLogic();
         });
 
         builder.CustomizeWebApplication(app =>
