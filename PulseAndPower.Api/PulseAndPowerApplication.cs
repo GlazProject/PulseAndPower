@@ -37,9 +37,4 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
 
         return Task.CompletedTask;
     }
-
-    public override Task WarmupAsync(IVostokHostingEnvironment environment, WebApplication webApplication)
-    {
-        return Task.CompletedTask;
-    }
 }
