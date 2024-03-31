@@ -15,12 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\Common" />
-      <Folder Include="Models\Request" />
-      <Folder Include="Models\Result" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\PulseAndPower.Core\PulseAndPower.Core.csproj" />
     </ItemGroup>
 

@@ -16,7 +16,7 @@ public class AuthController : ControllerBase
     /// <response code="200">SMS sent successfully</response>
     [HttpPost]
     [Route("phone/{normalizedNumber}")]
-    public virtual IActionResult SendVerificationCode([FromRoute][Required] string normalizedNumber)
+    public Task<IActionResult> SendVerificationCode([FromRoute][Required] string normalizedNumber)
     { 
         throw new NotImplementedException();
     }
@@ -30,7 +30,7 @@ public class AuthController : ControllerBase
     [AuthSid]
     [HttpPost]
     [Route("confirmPhone/{code}")]
-    public virtual IActionResult ConfirmPhoneCode([FromQuery][Required] string code)
+    public Task<IActionResult> ConfirmPhoneCode([FromQuery][Required] string code)
     { 
         throw new NotImplementedException();
     }
@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
     [AuthSid]
     [HttpGet]
     [Route("logout")]
-    public virtual IActionResult LogOut()
+    public Task<IActionResult> LogOut()
     { 
         throw new NotImplementedException();
     }

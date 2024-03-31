@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using PulseAndPower.Attributes;
-using PulseAndPower.Models.Generated;
+using PulseAndPower.Models.Common;
+using PulseAndPower.Models.Results;
 
 namespace PulseAndPower.Controllers;
 
@@ -17,7 +18,7 @@ public class UserController : ControllerBase
     /// <response code="200">successful operation</response>
     [HttpDelete]
     [Route("favouritePlaces/{addressGuid}")]
-    public virtual IActionResult DeleteFavouritePlace([FromRoute][Required] string addressGuid)
+    public Task<IActionResult> DeleteFavouritePlace([FromRoute][Required] string addressGuid)
     {
         throw new NotImplementedException();
     }
@@ -29,7 +30,7 @@ public class UserController : ControllerBase
     /// <response code="200">successful operation</response>
     [HttpPut]
     [Route("favouritePlaces/{addressGuid}")]
-    public virtual IActionResult AddFavouritePlace([FromRoute][Required] string addressGuid)
+    public Task<IActionResult> AddFavouritePlace([FromRoute][Required] string addressGuid)
     {
         throw new NotImplementedException();
     }
@@ -40,7 +41,7 @@ public class UserController : ControllerBase
     /// <response code="200">successful operation</response>
     [HttpGet]
     [Route("favouritePlaces")]
-    public virtual IActionResult GetFavouritePlaces()
+    public Task<ActionResult<GetPlacesResult>> GetFavouritePlaces()
     {
         throw new NotImplementedException();
     }
@@ -50,7 +51,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <response code="200">successful operation</response>
     [HttpGet]
-    public virtual IActionResult GetUserInfo()
+    public Task<ActionResult<User>> GetUserInfo()
     {
         throw new NotImplementedException();
     }
@@ -62,7 +63,7 @@ public class UserController : ControllerBase
     /// <param name="body">New user info. May not include all fields in request</param>
     /// <response code="200">successful operation</response>
     [HttpPatch]
-    public virtual IActionResult PatchUserInfo([FromBody] User body)
+    public Task<IActionResult> PatchUserInfo([FromBody] User body)
     {
         throw new NotImplementedException();
     }
@@ -75,7 +76,7 @@ public class UserController : ControllerBase
     /// <response code="200">successful operation</response>
     [HttpPut]
     [Route("")]
-    public virtual IActionResult CreateUser([FromBody]User body)
+    public Task<IActionResult> CreateUser([FromBody] User body)
     {
         throw new NotImplementedException();
     }

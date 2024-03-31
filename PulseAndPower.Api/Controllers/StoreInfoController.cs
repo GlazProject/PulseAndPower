@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PulseAndPower.Models.Results;
 
 namespace PulseAndPower.Controllers;
 
@@ -12,7 +13,7 @@ public class StoreInfoController: ControllerBase
     /// <response code="200">successful operation</response>
     [HttpGet]
     [Route("places")]
-    public virtual IActionResult GetPlaces()
+    public Task<ActionResult<GetPlacesResult>> GetPlaces()
     {
         throw new NotImplementedException();
     }
