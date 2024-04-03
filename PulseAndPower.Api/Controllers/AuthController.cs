@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using PulseAndPower.Attributes;
+using PulseAndPower.Models.Request;
 
 namespace PulseAndPower.Controllers;
 
@@ -12,25 +13,25 @@ public class AuthController : ControllerBase
     /// Send SMS verification code
     /// </summary>
     /// <remarks>Sends an SMS verification code to the specified phone number</remarks>
-    /// <param name="normalizedNumber">The normalized phone number with country code +7</param>
+    /// <param name="request">Request with normalized phone number (without +7 or 8)</param>
     /// <response code="200">SMS sent successfully</response>
     [HttpPost]
-    [Route("phone/{normalizedNumber}")]
-    public Task<IActionResult> SendVerificationCode([FromRoute][Required] string normalizedNumber)
+    [Route("phone")]
+    public Task<IActionResult> SendVerificationCode([FromBody, Required] SendVerificationCodeRequest request)
     { 
         throw new NotImplementedException();
     }
-    
+
     /// <summary>
     /// Confirm phone with received code
     /// </summary>
     /// <remarks>Send new authSid, if code is correct</remarks>
-    /// <param name="code">Code received from sms</param>
+    /// <param name="request">Request with confirmation code</param>
     /// <response code="200">Successful operation</response>
     [AuthSid]
     [HttpPost]
-    [Route("confirmPhone/{code}")]
-    public Task<IActionResult> ConfirmPhoneCode([FromQuery][Required] string code)
+    [Route("confirmPhone")]
+    public Task<IActionResult> ConfirmPhoneCode([FromBody, Required] ConfirmCodeRequest request)
     { 
         throw new NotImplementedException();
     }

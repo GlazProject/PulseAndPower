@@ -12,24 +12,12 @@ namespace PulseAndPower.Controllers;
 public class StoreController : ControllerBase
 { 
     /// <summary>
-    /// Place an order for a subscription based on previous order
-    /// </summary>
-    /// <param name="previousOrderId"></param>
-    /// <response code="200">successful operation</response>
-    [HttpPut]
-    [Route("order/{previousOrderId}")]
-    public Task<ActionResult> RepeatOrder([FromRoute][Required] string previousOrderId)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Place an order for a subscription
+    /// Place an order for a subscription. If you want to reorder old order post new order with same parameters.
     /// </summary>
     /// <remarks>Place a new order in the store with payment confirmation</remarks>
-    /// <param name="request"></param>
+    /// <param name="request">Order request</param>
     /// <response code="200">successful operation</response>
-    [HttpPut]
+    [HttpPost]
     [Route("order")]
     public Task<ActionResult> NewOrder([FromBody] OrderRequest request)
     {
