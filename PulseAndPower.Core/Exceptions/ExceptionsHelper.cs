@@ -1,6 +1,8 @@
-﻿namespace PulseAndPower.BusinessLogic.Exceptions;
+﻿using System.Security.Authentication;
+
+namespace PulseAndPower.BusinessLogic.Exceptions;
 
 public static class ExceptionsHelper
 {
-    public static ApplicationException Unauthenticated => new("Unauthenticated user");
+    public static Exception Unauthenticated => new AuthenticationException("Unauthenticated user");
 }

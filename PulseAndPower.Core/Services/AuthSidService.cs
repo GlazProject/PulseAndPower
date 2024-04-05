@@ -20,7 +20,7 @@ public class AuthSidService: IAuthSidService
     public async Task ValidateSid(string sid)
     {
         var collection = await sidCollection.FindAsync(s => string.Equals(s.Sid, sid, StringComparison.OrdinalIgnoreCase)).ConfigureAwait(false);
-        var entity = await collection.FirstOrDefaultAsync();
+        var entity = await collection.FirstOrDefaultAsync().ConfigureAwait(true);
         GlobalContext.UserId = entity?.UserId ?? throw ExceptionsHelper.Unauthenticated;
     }
 }

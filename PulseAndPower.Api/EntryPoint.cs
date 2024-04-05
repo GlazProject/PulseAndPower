@@ -27,8 +27,7 @@ public static class EntryPoint
             .SetupLog(logBuilder => logBuilder.SetupConsoleLog())
             .SetupConfiguration(setup => setup.AddSecretInMemoryObject(new SecretSettings
             {
-                MongoConnectionString = Environment.GetEnvironmentVariable("PULSEANDPOWER_MONGO_CONNECTION_STRING")
-                                        ?? "mongodb://localhost:27017"
+                MongoConnectionString = "mongodb://localhost:27017"
             }))
             .SetPort(25252);
     }

@@ -1,12 +1,12 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
 
 namespace PulseAndPower.BusinessLogic.Models.DB;
 
 public class SidEntity
 {
-    [BsonElement]
+    public ObjectId Id { get; set; }
+    
     public string Sid { get; set; }
     
-    [BsonElement]
     public Guid UserId { get; set; }
 }

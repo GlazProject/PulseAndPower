@@ -2,6 +2,6 @@
 
 public class AuthSettings
 {
-    public string DatabaseName { get; set; } = "auth";
+    public string DatabaseName { get; set; } = "PulseAndPower";
     public string SidCollectionName { get; set; } = "sessions";
 }
