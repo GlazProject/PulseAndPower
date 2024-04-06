@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using PulseAndPower.Attributes;
-using PulseAndPower.Models.Common;
+using PulseAndPower.BusinessLogic.Models.Common;
+using PulseAndPower.BusinessLogic.Models.Results;
 using PulseAndPower.Models.Request;
-using PulseAndPower.Models.Results;
 
 namespace PulseAndPower.Controllers;
 

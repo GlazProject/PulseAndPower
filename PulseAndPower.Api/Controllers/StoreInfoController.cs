@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PulseAndPower.Models.Results;
+using PulseAndPower.BusinessLogic.Models.Results;
 
 namespace PulseAndPower.Controllers;
 

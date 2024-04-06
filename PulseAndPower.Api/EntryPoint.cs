@@ -1,5 +1,4 @@
-﻿using PulseAndPower.BusinessLogic.Settings;
-using Vostok.Hosting;
+﻿using Vostok.Hosting;
 using Vostok.Hosting.Setup;
 
 namespace PulseAndPower;
@@ -25,10 +24,6 @@ public static class EntryPoint
             .DisableClusterConfig()
             .DisableHercules()
             .SetupLog(logBuilder => logBuilder.SetupConsoleLog())
-            .SetupConfiguration(setup => setup.AddSecretInMemoryObject(new SecretSettings
-            {
-                MongoConnectionString = "mongodb://localhost:27017"
-            }))
             .SetPort(25252);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace PulseAndPower.Models.Common;
+﻿namespace PulseAndPower.BusinessLogic.Models.Common;
 
 public class User
 {
@@ -13,10 +13,9 @@ public class User
 
     public string Patronymic { get; set; }
 
-    /// <summary>
-    /// Phone with 8 at the beginning
-    /// </summary>
     public string Phone { get; set; }
 
     public List<Address> FavouritePlaces { get; set; }
+    
+    public UserStatus IsActivated { get; set; }
 }

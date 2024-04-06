@@ -1,6 +1,6 @@
-﻿using PulseAndPower.Models.Common;
+﻿using PulseAndPower.BusinessLogic.Models.Common;
 
-namespace PulseAndPower.Models.Results;
+namespace PulseAndPower.BusinessLogic.Models.Results;
 
 public class GetPlacesResult
 {

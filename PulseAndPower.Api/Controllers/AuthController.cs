@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using PulseAndPower.Attributes;
+using PulseAndPower.BusinessLogic.Models.Request;
+using PulseAndPower.BusinessLogic.Services.Interfaces;
 using PulseAndPower.Models.Request;
 
 namespace PulseAndPower.Controllers;
@@ -8,7 +10,14 @@ namespace PulseAndPower.Controllers;
 [ApiController]
 [Route("/api/auth")]
 public class AuthController : ControllerBase
-{ 
+{
+    private readonly IAuthService service;
+
+    public AuthController(IAuthService service)
+    {
+        this.service = service;
+    }
+
     /// <summary>
     /// Send SMS verification code
     /// </summary>
@@ -17,10 +26,8 @@ public class AuthController : ControllerBase
     /// <response code="200">SMS sent successfully</response>
     [HttpPost]
     [Route("phone")]
-    public Task<IActionResult> SendVerificationCode([FromBody, Required] SendVerificationCodeRequest request)
-    { 
-        throw new NotImplementedException();
-    }
+    public Task SendVerificationCode([FromBody, Required] SendVerificationCodeRequest request) => 
+        service.SendVerificationCode(HttpContext, request);
 
     /// <summary>
     /// Confirm phone with received code
@@ -31,10 +38,8 @@ public class AuthController : ControllerBase
     [AuthSid]
     [HttpPost]
     [Route("confirmPhone")]
-    public Task<IActionResult> ConfirmPhoneCode([FromBody, Required] ConfirmCodeRequest request)
-    { 
-        throw new NotImplementedException();
-    }
+    public Task ConfirmPhoneCode([FromBody, Required] ConfirmCodeRequest request) =>
+        service.ValidateVerificationCode(HttpContext, request);
 
     /// <summary>
     /// Logs out current logged in user session
@@ -43,8 +48,5 @@ public class AuthController : ControllerBase
     [AuthSid]
     [HttpGet]
     [Route("logout")]
-    public Task<IActionResult> LogOut()
-    { 
-        throw new NotImplementedException();
-    }
+    public Task LogOut() => service.Logout(HttpContext);
 }

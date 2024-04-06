@@ -1,16 +1,16 @@
 ﻿using System.Net;
 using System.Security.Authentication;
+using PulseAndPower.BusinessLogic.Exceptions;
 using PulseAndPower.BusinessLogic.Settings;
 using PulseAndPower.DI;
 using Vostok.Applications.AspNetCore;
 using Vostok.Applications.AspNetCore.Builders;
 using Vostok.Hosting.Abstractions;
 using Vostok.Hosting.Abstractions.Requirements;
-using ApplicationException = PulseAndPower.BusinessLogic.Exceptions.ApplicationException;
 
 namespace PulseAndPower;
 
-[RequiresSecretConfiguration(typeof(SecretSettings))]
+[RequiresSecretConfiguration(typeof(ApplicationSettings))]
 public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
 {
     public override Task SetupAsync(IVostokAspNetCoreWebApplicationBuilder builder, IVostokHostingEnvironment environment)
@@ -28,9 +28,7 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
                 setup.LogQueryString = true;
             });
             
-            setupBuilder.Services.AddSingleton(environment.SecretConfigurationProvider.Get<SecretSettings>());
-            
-            setupBuilder.Services.RegisterMongo();
+            setupBuilder.Services.AddSingleton(environment.SecretConfigurationProvider.Get<ApplicationSettings>());
             setupBuilder.Services.RegisterBusinessLogic();
         });
 
@@ -46,7 +44,7 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
             app.UseResponseExceptionHandler(setup =>
                 {
                     setup.Map<AuthenticationException>(HttpStatusCode.Unauthorized);
-                    setup.Map<ApplicationException>(HttpStatusCode.BadRequest);
+                    setup.Map<BadRequestException>(HttpStatusCode.BadRequest);
                 }
             );
         });
