@@ -1,9 +1,9 @@
-﻿namespace PulseAndPower.Models.Request;
+﻿namespace PulseAndPower.BusinessLogic.Models.Request;
 
 public class PlacesRequest
 {
     /// <summary>
-    /// List with onformatoin about places
+    /// List with places ids
     /// </summary>
-    public List<PlaceRequest> Places { get; set; }
+    public List<Guid> PlaceIds { get; set; }
 }

@@ -4,8 +4,8 @@ namespace PulseAndPower.BusinessLogic.Services.Interfaces;
 
 public interface IAuthDatabaseDriver
 {
-    Task<User> GetOrCreateUser(string phone);
-    Task UpdateUser(Guid userId, Action<User> updatingRules);
+    Task<UserEntity> GetOrCreateUser(string phone);
+    Task UpdateUser(Guid userId, Action<UserEntity> updatingRules);
     
     Task<SidEntity> CreateSession(Guid userId);
     Task<SidEntity?> GetSessionOrDefault(Guid sessionId);

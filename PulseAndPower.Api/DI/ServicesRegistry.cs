@@ -11,7 +11,11 @@ public static class ServicesRegistry
         services
             .AddSingleton(sp => sp.GetService<ApplicationSettings>()!.MongoSettings)
             .AddSingleton<IAuthService, AuthService>()
+            .AddSingleton<IUserService, UserService>()
+            .AddSingleton<IStoreInfoService, StoreInfoService>()
             .AddSingleton<IAuthDatabaseDriver, MongoDriver>()
+            .AddSingleton<IUsersDatabaseDriver, MongoDriver>()
+            .AddSingleton<IStoreInfoDatabaseDriver, MongoDriver>()
             .AddSingleton(CreateClient);
 
     private static IMongoClient CreateClient(IServiceProvider provider)

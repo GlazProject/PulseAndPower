@@ -42,8 +42,8 @@ public class AuthService: IAuthService
         await driver.DeleteVerificationCode(userId);
         await driver.UpdateUser(userId, user =>
         {
-            if (user.IsActivated == UserStatus.CodeSent)
-                user.IsActivated = UserStatus.PhoneVerified;
+            if (user.Status == UserStatus.CodeSent)
+                user.Status = UserStatus.PhoneVerified;
         });
     }
 
