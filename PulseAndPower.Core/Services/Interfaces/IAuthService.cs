@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using PulseAndPower.BusinessLogic.Models.Request;
-using PulseAndPower.Models.Request;
 
 namespace PulseAndPower.BusinessLogic.Services.Interfaces;
 

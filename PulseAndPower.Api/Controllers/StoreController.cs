@@ -1,8 +1,9 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using PulseAndPower.Attributes;
-using PulseAndPower.Models.Request;
-using PulseAndPower.Models.Results;
+using PulseAndPower.BusinessLogic.Models.Common;
+using PulseAndPower.BusinessLogic.Models.Request;
+using PulseAndPower.BusinessLogic.Models.Results;
+using PulseAndPower.BusinessLogic.Services.Interfaces;
 
 namespace PulseAndPower.Controllers;
 
@@ -10,7 +11,14 @@ namespace PulseAndPower.Controllers;
 [ApiController]
 [Route("/api/store")]
 public class StoreController : ControllerBase
-{ 
+{
+    private readonly IStoreService service;
+
+    public StoreController(IStoreService service)
+    {
+        this.service = service;
+    }
+
     /// <summary>
     /// Place an order for a subscription. If you want to reorder old order post new order with same parameters.
     /// </summary>
@@ -19,10 +27,8 @@ public class StoreController : ControllerBase
     /// <response code="200">successful operation</response>
     [HttpPost]
     [Route("order")]
-    public Task<ActionResult> NewOrder([FromBody] OrderRequest request)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<ActionResult<Order>> NewOrder([FromBody] OrderRequest request) =>
+        Ok(await service.CreateOrder(request));
 
     /// <summary>
     /// Get all orders for user
@@ -30,8 +36,5 @@ public class StoreController : ControllerBase
     /// <response code="200">successful operation</response>
     [HttpGet]
     [Route("orders")]
-    public Task<ActionResult<GetOrdersResult>> GetOrders()
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<ActionResult<GetOrdersResult>> GetOrders() => Ok(await service.GetOrders());
 }

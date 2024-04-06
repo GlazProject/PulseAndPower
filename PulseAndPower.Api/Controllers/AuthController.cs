@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PulseAndPower.Attributes;
 using PulseAndPower.BusinessLogic.Models.Request;
 using PulseAndPower.BusinessLogic.Services.Interfaces;
-using PulseAndPower.Models.Request;
 
 namespace PulseAndPower.Controllers;
 
