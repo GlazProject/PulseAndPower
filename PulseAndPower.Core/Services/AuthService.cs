@@ -27,18 +27,21 @@ public class AuthService: IAuthService
         log.Info($"Sending verification code for phone {request.NormalizedPhone}");
         var user = await driver.GetOrCreateUser(Helpers.NormalizePhone(request.NormalizedPhone));
         var sidEntity = await driver.CreateSession(user.Id);
-        await driver.CreateOrUpdateVerificationCode(user.Id, NewCode);
+        await driver.CreateOrUpdateVerificationCode(sidEntity.Id, NewCode);
         context.Response.Headers[AuthSidHeader] = sidEntity.Id.ToString();
     }
 
     public async Task ValidateVerificationCode(ConfirmCodeRequest request)
     {
+        var sid = GlobalContext.Sid;
         var userId = GlobalContext.UserId;
-        var code = await driver.GetVerificationCodeOrDefault(userId);
+        
+        var code = await driver.GetVerificationCodeOrDefault(sid);
         if (!string.Equals(code, request.Code))
             throw new BadRequestException("Incorrect verification code");
 
-        await driver.DeleteVerificationCode(userId);
+        await driver.SetSessionAsVerified(sid);
+        await driver.DeleteVerificationCode(sid);
         await driver.UpdateUser(userId, user =>
         {
             if (user.Status == UserStatus.CodeSent)
@@ -52,14 +55,16 @@ public class AuthService: IAuthService
         return driver.DeleteSession(GlobalContext.Sid);
     }
 
-    public async Task<Guid> ValidateSid(string sid)
+    public async Task<SidEntity> ValidateSid(string sid)
     {
         if (!Guid.TryParse(sid, out var id))
             throw ExceptionsHelper.Unauthenticated;
 
-        var entity = await driver.GetSessionOrDefault(id);
-        return entity?.UserId ?? throw ExceptionsHelper.Unauthenticated;
+        return await driver.GetSessionOrDefault(id) ?? throw ExceptionsHelper.Unauthenticated;
     }
+
+    public async Task<UserEntity> GetUser(Guid userId) => 
+        await driver.GetUserEntity(userId) ?? throw new BadRequestException("User for session not found");
 
     private static string NewCode => Random.NextInt64(1000, 9999).ToString();
 }

@@ -9,6 +9,7 @@ namespace PulseAndPower.Controllers;
 
 [AuthSid]
 [ApiController]
+[VerifySession]
 [Route("/api/store")]
 public class StoreController : ControllerBase
 {

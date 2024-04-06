@@ -96,14 +96,21 @@ public class MongoDriver: IAuthDatabaseDriver, IUsersDatabaseDriver, IStoreInfoD
     public async Task<SidEntity?> GetSessionOrDefault(Guid sessionId) =>
         await (await sessions.FindAsync(s => s.Id == sessionId)).FirstOrDefaultAsync();
 
+    public async Task SetSessionAsVerified(Guid sessionId)
+    {
+        var session = await GetSessionOrDefault(sessionId);
+        session!.IsVerified = true;
+        await sessions.ReplaceOneAsync(s => s.Id == sessionId, session);
+    }
+
     public async Task DeleteSession(Guid sessionId) => 
         await sessions.DeleteOneAsync(s => s.Id == sessionId);
 
-    public async Task CreateOrUpdateVerificationCode(Guid userId, string verificationCode)
+    public async Task CreateOrUpdateVerificationCode(Guid sessionId, string verificationCode)
     {
         var entity = new VerificationCodeEntity
         {
-            Id = userId,
+            Id = sessionId,
             VerificationCode = verificationCode
         };
         
@@ -112,14 +119,14 @@ public class MongoDriver: IAuthDatabaseDriver, IUsersDatabaseDriver, IStoreInfoD
             await verificationCodes.InsertOneAsync(entity);
     }
 
-    public async Task<string?> GetVerificationCodeOrDefault(Guid userId)
+    public async Task<string?> GetVerificationCodeOrDefault(Guid sessionId)
     {
-        var codeEntity = await (await verificationCodes.FindAsync(c => c.Id == userId)).FirstOrDefaultAsync();
+        var codeEntity = await (await verificationCodes.FindAsync(c => c.Id == sessionId)).FirstOrDefaultAsync();
         return codeEntity?.VerificationCode;
     }
 
-    public async Task DeleteVerificationCode(Guid userId) => 
-        await verificationCodes.DeleteOneAsync(s => s.Id == userId);
+    public async Task DeleteVerificationCode(Guid sessionId) => 
+        await verificationCodes.DeleteOneAsync(s => s.Id == sessionId);
 
     public async Task<IEnumerable<Address>> GetAllPlaces() => (await addresses.FindAsync(_ => true)).ToEnumerable();
     
