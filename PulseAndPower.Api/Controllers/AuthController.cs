@@ -25,7 +25,7 @@ public class AuthController : ControllerBase
     /// <param name="request">Request with normalized phone number (without +7 or 8)</param>
     /// <response code="200">SMS sent successfully</response>
     [HttpPost]
-    [Route("phone")]
+    [Route("sendCode")]
     public Task SendVerificationCode([FromBody, Required] SendVerificationCodeRequest request) => 
         service.SendVerificationCode(HttpContext, request);
 
@@ -37,9 +37,9 @@ public class AuthController : ControllerBase
     /// <response code="200">Successful operation</response>
     [AuthSid]
     [HttpPost]
-    [Route("confirmPhone")]
+    [Route("confirmCode")]
     public Task ConfirmPhoneCode([FromBody, Required] ConfirmCodeRequest request) =>
-        service.ValidateVerificationCode(HttpContext, request);
+        service.ValidateVerificationCode(request);
 
     /// <summary>
     /// Logs out current logged in user session

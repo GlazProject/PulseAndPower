@@ -8,7 +8,7 @@ public interface IAuthService
 {
     Task SendVerificationCode(HttpContext context, SendVerificationCodeRequest request);
 
-    Task ValidateVerificationCode(HttpContext context, ConfirmCodeRequest request);
+    Task ValidateVerificationCode(ConfirmCodeRequest request);
 
     Task Logout(HttpContext context);
     

@@ -32,7 +32,7 @@ public class AuthService: IAuthService
         context.Response.Headers[AuthSidHeader] = sidEntity.Id.ToString();
     }
 
-    public async Task ValidateVerificationCode(HttpContext context, ConfirmCodeRequest request)
+    public async Task ValidateVerificationCode(ConfirmCodeRequest request)
     {
         var userId = GlobalContext.UserId;
         var code = await driver.GetVerificationCodeOrDefault(userId);
