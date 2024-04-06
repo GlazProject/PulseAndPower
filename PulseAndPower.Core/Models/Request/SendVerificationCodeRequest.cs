@@ -1,4 +1,4 @@
-﻿namespace PulseAndPower.Models.Request;
+﻿namespace PulseAndPower.BusinessLogic.Models.Request;
 
 public class SendVerificationCodeRequest
 {

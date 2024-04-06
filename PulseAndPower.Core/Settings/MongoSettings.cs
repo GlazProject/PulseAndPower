@@ -12,4 +12,5 @@ public class MongoSettings
     public string UsersCollectionName { get; set; } = "users";
     public string VerificationCodesCollectionName { get; set; } = "codes";
     public string AddressesCollectionName { get; set; } = "addresses";
+    public string OrdersCollectionName { get; set; } = "orders";
 }

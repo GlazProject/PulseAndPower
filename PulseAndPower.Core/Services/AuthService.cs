@@ -4,7 +4,6 @@ using PulseAndPower.BusinessLogic.Infrastructure;
 using PulseAndPower.BusinessLogic.Models.Common;
 using PulseAndPower.BusinessLogic.Models.Request;
 using PulseAndPower.BusinessLogic.Services.Interfaces;
-using PulseAndPower.Models.Request;
 using Vostok.Logging.Abstractions;
 
 namespace PulseAndPower.BusinessLogic.Services;

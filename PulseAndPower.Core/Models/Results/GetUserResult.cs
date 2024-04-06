@@ -14,5 +14,5 @@ public class GetUserResult
 
     public string Phone { get; set; }
 
-    public Dictionary<string, Address> FavouritePlaces { get; set; }
+    public Dictionary<string, List<Address>> FavouritePlaces { get; set; }
 }

@@ -7,13 +7,14 @@ using Vostok.Logging.Abstractions;
 
 namespace PulseAndPower.BusinessLogic.Services;
 
-public class MongoDriver: IAuthDatabaseDriver, IUsersDatabaseDriver, IStoreInfoDatabaseDriver
+public class MongoDriver: IAuthDatabaseDriver, IUsersDatabaseDriver, IStoreInfoDatabaseDriver, IStoreDatabaseDriver
 {
     private readonly ILog log;
     private readonly IMongoCollection<UserEntity> users;
     private readonly IMongoCollection<SidEntity> sessions;
     private readonly IMongoCollection<VerificationCodeEntity> verificationCodes;
     private readonly IMongoCollection<Address> addresses;
+    private readonly IMongoCollection<Order> orders;
 
     public MongoDriver(IMongoClient client, ILog log, MongoSettings settings)
     {
@@ -24,8 +25,8 @@ public class MongoDriver: IAuthDatabaseDriver, IUsersDatabaseDriver, IStoreInfoD
         users.Indexes.CreateOne(new CreateIndexModel<UserEntity>(Builders<UserEntity>.IndexKeys.Ascending(x => x.Phone), new CreateIndexOptions { Unique = true }));
         
         verificationCodes = client.GetDatabase(settings.DatabaseName).GetCollection<VerificationCodeEntity>(settings.VerificationCodesCollectionName);
-        
         addresses = client.GetDatabase(settings.DatabaseName).GetCollection<Address>(settings.AddressesCollectionName);
+        orders = client.GetDatabase(settings.DatabaseName).GetCollection<Order>(settings.OrdersCollectionName);
     }
 
     public async Task<UserEntity> GetOrCreateUser(string phone)
@@ -70,7 +71,8 @@ public class MongoDriver: IAuthDatabaseDriver, IUsersDatabaseDriver, IStoreInfoD
             throw new BadRequestException("User was not found");
 
         updatingRules(user);
-        await users.ReplaceOneAsync(u => u.Id == user.Id, user);
+        user.Id = userId;
+        await users.ReplaceOneAsync(u => u.Id == userId, user);
     }
 
     public async Task<Address?> GetPlaceInfoOrDefault(Guid placeId)
@@ -120,4 +122,9 @@ public class MongoDriver: IAuthDatabaseDriver, IUsersDatabaseDriver, IStoreInfoD
         await verificationCodes.DeleteOneAsync(s => s.Id == userId);
 
     public async Task<IEnumerable<Address>> GetAllPlaces() => (await addresses.FindAsync(_ => true)).ToEnumerable();
+    
+    public async Task PutOrder(Order order) => await orders.InsertOneAsync(order);
+
+    public async Task<IEnumerable<Order>> GetOrders(Guid userId) => 
+        (await orders.FindAsync(o => o.UserId == userId)).ToEnumerable();
 }
