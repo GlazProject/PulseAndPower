@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using PulseAndPower.BusinessLogic.Models.Common;
 using PulseAndPower.BusinessLogic.Models.Request;
 
 namespace PulseAndPower.BusinessLogic.Services.Interfaces;
@@ -11,5 +12,6 @@ public interface IAuthService
 
     Task Logout(HttpContext context);
     
-    Task<Guid> ValidateSid(string sid);
+    Task<SidEntity> ValidateSid(string sid);
+    Task<UserEntity> GetUser(Guid userId);
 }

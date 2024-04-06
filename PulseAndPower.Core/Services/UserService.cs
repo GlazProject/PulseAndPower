@@ -76,6 +76,7 @@ public class UserService: IUserService
         FirstName = user.FirstName,
         LastName = user.LastName,
         Patronymic = user.Patronymic,
+        Phone = user.Phone,
         FavouritePlaces = await GetAddresses(user.FavouritePlaces)
     };
 

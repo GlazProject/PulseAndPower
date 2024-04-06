@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using PulseAndPower.Attributes;
+using PulseAndPower.BusinessLogic.Models.Common;
 using PulseAndPower.BusinessLogic.Models.Request;
 using PulseAndPower.BusinessLogic.Models.Results;
 using PulseAndPower.BusinessLogic.Services.Interfaces;
@@ -8,6 +9,7 @@ using PulseAndPower.BusinessLogic.Services.Interfaces;
 namespace PulseAndPower.Controllers;
 
 [AuthSid]
+[VerifySession]
 [ApiController]
 [Route("/api/user")]
 public class UserController : ControllerBase

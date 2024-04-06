@@ -22,10 +22,14 @@ public class AuthSidAttribute : Attribute, IAsyncActionFilter
             return;
         }
 
-        var userId = await context.HttpContext.RequestServices.GetRequiredService<IAuthService>().ValidateSid(extractedAuthSid);
+        var service = context.HttpContext.RequestServices.GetRequiredService<IAuthService>();
+        var sidEntity = await service.ValidateSid(extractedAuthSid);
+        var user = await service.GetUser(sidEntity.UserId);
         context.HttpContext.Response.Headers[AuthSidHeader] = extractedAuthSid;
         
-        GlobalContext.UserId = userId;
+        GlobalContext.UserId = user.Id;
+        GlobalContext.UserStatus = user.Status;
+        GlobalContext.IsVerifiedSession = sidEntity.IsVerified;
         GlobalContext.Sid = Guid.Parse(extractedAuthSid);
         
         await next();

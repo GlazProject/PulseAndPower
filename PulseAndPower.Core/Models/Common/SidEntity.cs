@@ -10,4 +10,6 @@ public class SidEntity
     
     [BsonRepresentation(BsonType.String)]
     public Guid UserId { get; set; }
+    
+    public bool IsVerified { get; set; }
 }

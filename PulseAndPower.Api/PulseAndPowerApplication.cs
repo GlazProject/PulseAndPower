@@ -45,6 +45,7 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
                 {
                     setup.Map<AuthenticationException>(HttpStatusCode.Unauthorized);
                     setup.Map<BadRequestException>(HttpStatusCode.BadRequest);
+                    setup.Map<ForbiddenException>(HttpStatusCode.Forbidden);
                 }
             );
         });

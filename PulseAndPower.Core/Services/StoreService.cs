@@ -6,7 +6,7 @@ using PulseAndPower.BusinessLogic.Services.Interfaces;
 
 namespace PulseAndPower.BusinessLogic.Services;
 
-public class StoreService: IStoreService
+public class StoreService : IStoreService
 {
     private readonly IStoreDatabaseDriver driver;
 
