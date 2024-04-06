@@ -79,13 +79,14 @@ public class UserService: IUserService
         FavouritePlaces = await GetAddresses(user.FavouritePlaces)
     };
 
-    private async Task<Dictionary<string, Address>> GetAddresses(IEnumerable<Guid>? ids)
+    private async Task<Dictionary<string, List<Address>>> GetAddresses(IEnumerable<Guid>? ids)
     {
-        var result = new Dictionary<string, Address>();
+        var result = new Dictionary<string, List<Address>>();
         foreach (var id in ids ?? Array.Empty<Guid>())
         {
             var address = await driver.GetPlaceInfoOrDefault(id);
-            result[address!.City] = address;
+            result.TryAdd(address!.City, new List<Address>());
+            result[address.City].Add(address);
         }
 
         return result;

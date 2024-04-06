@@ -18,6 +18,6 @@ public class StoreInfoService: IStoreInfoService
     public async Task<GetPlacesResult> GetAllPlaces() =>
         new()
         {
-            Addresses = (await driver.GetAllPlaces()).ToDictionary(a => a.City, a => a)
+            Addresses = (await driver.GetAllPlaces()).GroupBy(a=>a.City).ToDictionary(g=> g.Key, g=> g.ToList())
         };
 }
