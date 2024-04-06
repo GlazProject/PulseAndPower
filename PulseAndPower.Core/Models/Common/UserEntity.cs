@@ -1,10 +1,7 @@
 ﻿namespace PulseAndPower.BusinessLogic.Models.Common;
 
-public class User
+public class UserEntity
 {
-    /// <summary>
-    /// User ID. Server will rewrite this field on user creating
-    /// </summary>
     public Guid Id { get; set; }
 
     public string FirstName { get; set; }
@@ -15,7 +12,7 @@ public class User
 
     public string Phone { get; set; }
 
-    public List<Address> FavouritePlaces { get; set; }
+    public List<Guid> FavouritePlaces { get; set; }
     
-    public UserStatus IsActivated { get; set; }
+    public UserStatus Status { get; set; }
 }

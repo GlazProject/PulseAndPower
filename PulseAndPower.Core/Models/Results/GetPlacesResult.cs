@@ -4,5 +4,5 @@ namespace PulseAndPower.BusinessLogic.Models.Results;
 
 public class GetPlacesResult
 {
-    public List<Address> Addresses { get; set; }
+    public Dictionary<string, Address> Addresses { get; set; }
 }

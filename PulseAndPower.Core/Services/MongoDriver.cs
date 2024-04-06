@@ -7,25 +7,28 @@ using Vostok.Logging.Abstractions;
 
 namespace PulseAndPower.BusinessLogic.Services;
 
-public class MongoDriver: IAuthDatabaseDriver
+public class MongoDriver: IAuthDatabaseDriver, IUsersDatabaseDriver, IStoreInfoDatabaseDriver
 {
     private readonly ILog log;
-    private readonly IMongoCollection<User> users;
+    private readonly IMongoCollection<UserEntity> users;
     private readonly IMongoCollection<SidEntity> sessions;
     private readonly IMongoCollection<VerificationCodeEntity> verificationCodes;
+    private readonly IMongoCollection<Address> addresses;
 
     public MongoDriver(IMongoClient client, ILog log, MongoSettings settings)
     {
         this.log = log.ForContext<MongoDriver>();
         sessions = client.GetDatabase(settings.DatabaseName).GetCollection<SidEntity>(settings.SidCollectionName);
         
-        users = client.GetDatabase(settings.DatabaseName).GetCollection<User>(settings.UsersCollectionName);
-        users.Indexes.CreateOne(new CreateIndexModel<User>(Builders<User>.IndexKeys.Ascending(x => x.Phone), new CreateIndexOptions { Unique = true }));
+        users = client.GetDatabase(settings.DatabaseName).GetCollection<UserEntity>(settings.UsersCollectionName);
+        users.Indexes.CreateOne(new CreateIndexModel<UserEntity>(Builders<UserEntity>.IndexKeys.Ascending(x => x.Phone), new CreateIndexOptions { Unique = true }));
         
         verificationCodes = client.GetDatabase(settings.DatabaseName).GetCollection<VerificationCodeEntity>(settings.VerificationCodesCollectionName);
+        
+        addresses = client.GetDatabase(settings.DatabaseName).GetCollection<Address>(settings.AddressesCollectionName);
     }
 
-    public async Task<User> GetOrCreateUser(string phone)
+    public async Task<UserEntity> GetOrCreateUser(string phone)
     {
         log.Info("Try get user by phone");
         var user = await (await users.FindAsync(u => u.Phone == phone)).FirstOrDefaultAsync();
@@ -33,7 +36,7 @@ public class MongoDriver: IAuthDatabaseDriver
             return user;
 
         log.Info($"User with phone {phone} not found. Create new entity");
-        user = new User
+        user = new UserEntity
         {
             Id = Guid.NewGuid(),
             Phone = phone
@@ -42,7 +45,24 @@ public class MongoDriver: IAuthDatabaseDriver
         return user;
     }
 
-    public async Task UpdateUser(Guid userId, Action<User> updatingRules)
+    public async Task<UserEntity?> GetUserEntity(Guid userId)
+    {
+        log.Info($"Try get user by id {userId}");
+        return await (await users.FindAsync(u => u.Id == userId)).FirstOrDefaultAsync();
+    }
+
+    public async Task<UserEntity> UpdateUser(UserEntity user)
+    {
+        log.Info($"Modify user with id {user.Id}");
+        var userEntity = await (await users.FindAsync(u => u.Id == user.Id)).FirstOrDefaultAsync();
+        if (user == null)
+            throw new BadRequestException("User was not found");
+        
+        await users.ReplaceOneAsync(u => u.Id == user.Id, user);
+        return user;
+    }
+
+    public async Task UpdateUser(Guid userId, Action<UserEntity> updatingRules)
     {
         log.Info($"Modify user with id {userId}");
         var user = await (await users.FindAsync(u => u.Id == userId)).FirstOrDefaultAsync();
@@ -51,6 +71,12 @@ public class MongoDriver: IAuthDatabaseDriver
 
         updatingRules(user);
         await users.ReplaceOneAsync(u => u.Id == user.Id, user);
+    }
+
+    public async Task<Address?> GetPlaceInfoOrDefault(Guid placeId)
+    {
+        log.Info($"Get place by id {placeId}");
+        return await (await addresses.FindAsync(u => u.Id == placeId)).FirstOrDefaultAsync();
     }
 
     public async Task<SidEntity> CreateSession(Guid userId)
@@ -92,4 +118,6 @@ public class MongoDriver: IAuthDatabaseDriver
 
     public async Task DeleteVerificationCode(Guid userId) => 
         await verificationCodes.DeleteOneAsync(s => s.Id == userId);
+
+    public async Task<IEnumerable<Address>> GetAllPlaces() => (await addresses.FindAsync(_ => true)).ToEnumerable();
 }
