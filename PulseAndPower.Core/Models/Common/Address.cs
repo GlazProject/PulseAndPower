@@ -1,4 +1,4 @@
-﻿namespace PulseAndPower.Models.Common;
+﻿namespace PulseAndPower.BusinessLogic.Models.Common;
 
 public class Address
 {
