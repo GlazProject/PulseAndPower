@@ -2,16 +2,16 @@
 using System.Security.Authentication;
 using PulseAndPower.BusinessLogic.Exceptions;
 using PulseAndPower.BusinessLogic.Settings;
-using PulseAndPower.DI;
+using PulseAndPower.WebApp.DI;
 using Vostok.Applications.AspNetCore;
 using Vostok.Applications.AspNetCore.Builders;
 using Vostok.Hosting.Abstractions;
 using Vostok.Hosting.Abstractions.Requirements;
 
-namespace PulseAndPower;
+namespace PulseAndPower.WebApp;
 
 [RequiresConfiguration(typeof(ApplicationSettings))]
-public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
+public class PulseAndPowerWebApplication: VostokAspNetCoreWebApplication
 {
     public override Task SetupAsync(IVostokAspNetCoreWebApplicationBuilder builder, IVostokHostingEnvironment environment)
     {
@@ -19,7 +19,6 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
         {
             setupBuilder.Services.AddControllers();
             setupBuilder.Services.AddEndpointsApiExplorer();
-            setupBuilder.Services.AddSwaggerGen();
             setupBuilder.Services.AddVostokTracing(setup => setup.ResponseTraceIdHeader = "TraceId");
             setupBuilder.Services.AddVostokRequestInfo(setup => setup.DefaultTimeoutProvider = _ => TimeSpan.FromSeconds(30));
             setupBuilder.Services.AddVostokRequestLogging(setup =>
@@ -34,7 +33,6 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
 
         builder.CustomizeWebApplication(app =>
         {
-            app.UseSwagger();
             app.UseVostokTracing();
             app.UseAuthorization();
             app.MapControllers();

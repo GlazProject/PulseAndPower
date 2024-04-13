@@ -1,13 +1,13 @@
 ﻿using Vostok.Hosting;
 using Vostok.Hosting.Setup;
 
-namespace PulseAndPower;
+namespace PulseAndPower.WebApp;
 
 public static class EntryPoint
 {
     public static async Task Main()
     {
-        var application = new PulseAndPowerApplication();
+        var application = new PulseAndPowerWebApplication();
         var hostSettings = new VostokHostSettings(application, EnvironmentSetup);
         var host = new VostokHost(hostSettings);
         await host.WithConsoleCancellation().RunAsync();
