@@ -8,7 +8,7 @@ public interface IUserService
     Task<GetUserResult> CreateUser(UserRequest request);
     Task<GetUserResult> GetUserInfo();
     
-    Task<GetPlacesResult> AddFavouritePlace(PlacesRequest request);
+    Task<GetPlacesResult> SetFavouritePlaces(PlacesRequest request);
     Task<GetPlacesResult> GetFavouritePlaces();
     Task<GetPlacesResult> DeleteFavouritePlace(Guid placeId);
 }

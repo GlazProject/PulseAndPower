@@ -10,7 +10,7 @@ public class VerifySessionAttribute: Attribute, IAsyncActionFilter
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         if (!GlobalContext.IsVerifiedSession)
-            throw new ForbiddenException("User is not registered yet");
+            throw new ForbiddenException("Phone is not verified yet");
 
         await next();
     }

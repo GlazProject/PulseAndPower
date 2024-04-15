@@ -37,7 +37,7 @@ public class UserService: IUserService
 
     public async Task<GetUserResult> GetUserInfo() => await GetUserResult(await GetUserEntity());
     
-    public async Task<GetPlacesResult> AddFavouritePlace(PlacesRequest request)
+    public async Task<GetPlacesResult> SetFavouritePlaces(PlacesRequest request)
     {
         foreach (var placeId in request.PlaceIds)
         {
@@ -46,7 +46,7 @@ public class UserService: IUserService
                 throw new BadRequestException($"Address with id {placeId} not found");
         }
 
-        await driver.UpdateUser(GlobalContext.UserId, user => user.FavouritePlaces.AddRange(request.PlaceIds));
+        await driver.UpdateUser(GlobalContext.UserId, user => user.FavouritePlaces = request.PlaceIds);
         return await GetFavouritePlaces();
     }
 

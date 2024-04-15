@@ -1,7 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using PulseAndPower.Attributes;
-using PulseAndPower.BusinessLogic.Models.Common;
 using PulseAndPower.BusinessLogic.Models.Request;
 using PulseAndPower.BusinessLogic.Models.Results;
 using PulseAndPower.BusinessLogic.Services.Interfaces;
@@ -22,30 +20,22 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
-    /// Delete favourite place for user
-    /// </summary>
-    /// <param name="placeId">ID of the place for deletion</param>
-    /// <response code="200">successful operation</response>
-    [HttpDelete]
-    [Route("favouritePlaces")]
-    public async Task<ActionResult<GetPlacesResult>> DeleteFavouritePlace([FromQuery, Required] Guid placeId) =>
-        Ok(await service.DeleteFavouritePlace(placeId));
-
-    /// <summary>
     /// Add new favourite place for user
     /// </summary>
     /// <param name="request">Request with information about favourite place</param>
     /// <response code="200">successful operation</response>
-    [HttpPut]
+    [HttpPost]
+    [RegisteredUser]
     [Route("favouritePlaces")]
-    public async Task<ActionResult<GetPlacesResult>> AddFavouritePlace([FromBody] PlacesRequest request) =>
-        Ok(await service.AddFavouritePlace(request));
+    public async Task<ActionResult<GetPlacesResult>> SetFavouritePlaces([FromBody] PlacesRequest request) =>
+        Ok(await service.SetFavouritePlaces(request));
 
     /// <summary>
     /// Get favourite places for user
     /// </summary>
     /// <response code="200">successful operation</response>
     [HttpGet]
+    [RegisteredUser]
     [Route("favouritePlaces")]
     public async Task<ActionResult<GetPlacesResult>> GetFavouritePlaces() => Ok(await service.GetFavouritePlaces());
 
@@ -54,6 +44,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <response code="200">successful operation</response>
     [HttpGet]
+    [RegisteredUser]
     public async Task<ActionResult<GetUserResult>> GetUserInfo() => Ok(await service.GetUserInfo());
 
     /// <summary>

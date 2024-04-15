@@ -1,4 +1,5 @@
-﻿using PulseAndPower.BusinessLogic.Infrastructure;
+﻿using PulseAndPower.BusinessLogic.Exceptions;
+using PulseAndPower.BusinessLogic.Infrastructure;
 using PulseAndPower.BusinessLogic.Models.Common;
 using PulseAndPower.BusinessLogic.Models.Request;
 using PulseAndPower.BusinessLogic.Models.Results;
@@ -33,9 +34,11 @@ public class StoreService : IStoreService
         return order;
     }
 
-    public async Task<GetOrdersResult> GetOrders() =>
-        new()
+    public async Task<GetOrdersResult> GetOrders()
+    {
+        return new GetOrdersResult
         {
             Orders = (await driver.GetOrders(GlobalContext.UserId)).ToList()
         };
+    }
 }

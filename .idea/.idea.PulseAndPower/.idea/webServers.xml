@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d9e5d0ad-4f2f-4784-8fd5-e939324452ae" name="somee" url="http://PulseAndPower.somee.com">
+        <fileTransfer rootFolder="/www.PulseAndPower.somee.com" host="PulseAndPower.somee.com" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
