@@ -14,7 +14,7 @@ public class Order
     public DateTime Date { get; set; }
 
     [BsonIgnore]
-    public bool IsExpired => Date.AddMonths(Subscription?.Duration ??  int.MaxValue) > DateTime.Now;
+    public bool IsExpired => Date.AddMonths(Subscription?.Duration ??  int.MaxValue) <= DateTime.Now;
     
     public Subscription Subscription { get; set; }
 }
