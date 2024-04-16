@@ -10,7 +10,7 @@ using Vostok.Hosting.Abstractions.Requirements;
 
 namespace PulseAndPower;
 
-[RequiresSecretConfiguration(typeof(ApplicationSettings))]
+[RequiresConfiguration(typeof(ApplicationSettings))]
 public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
 {
     public override Task SetupAsync(IVostokAspNetCoreWebApplicationBuilder builder, IVostokHostingEnvironment environment)
@@ -28,7 +28,7 @@ public class PulseAndPowerApplication: VostokAspNetCoreWebApplication
                 setup.LogQueryString = true;
             });
             
-            setupBuilder.Services.AddSingleton(environment.SecretConfigurationProvider.Get<ApplicationSettings>());
+            setupBuilder.Services.AddSingleton(environment.ConfigurationProvider.Get<ApplicationSettings>());
             setupBuilder.Services.RegisterBusinessLogic();
         });
 

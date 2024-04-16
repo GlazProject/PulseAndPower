@@ -23,7 +23,12 @@ public static class EntryPoint
                 .SetInstance("single"))
             .DisableClusterConfig()
             .DisableHercules()
-            .SetupLog(logBuilder => logBuilder.SetupConsoleLog())
+            .SetupLog(logBuilder =>
+            {
+                logBuilder.SetupConsoleLog();
+                logBuilder.SetupFileLog();
+            })
+            .SetupConfiguration(setup => setup.AddJsonFile("settings/config.json"))
             .SetPort(25252);
     }
 }
